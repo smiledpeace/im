@@ -1,0 +1,18 @@
+@import "../custom";
+button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    transition: border-color @transition-time ease, background-color @transition-time ease;
+    padding: 6px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    &.default {
+        background-color: #f8f8f9;
+        color: #666;
+        border: 1px solid #ebebeb;
+        &:hover {
+            border-color: #00a0ff;
+        }
+    }
+}
