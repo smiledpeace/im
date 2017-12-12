@@ -1,7 +1,7 @@
 import React from 'react';
 import { LeftBar } from './leftBar';
 import { Basket } from './basket';
-class App extends React.Component {
+class Action extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -32,4 +32,4 @@ class App extends React.Component {
     }
 }
 
-export { App };
+export { Action };
