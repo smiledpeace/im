@@ -9,6 +9,10 @@ import { Reservation } from "./form/reservation";
 
 import { Calculator } from "./BoilingVerdict/Calculator";
 
+import { Game } from './games/game.js';
+
+import { Header } from './head/head.js';
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -16,6 +20,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
+                <Header />
                 <BackGround/>
                 <Action/>
                 <Clock />
@@ -23,9 +28,9 @@ class App extends React.Component {
                 <Clock />
                 <Reservation/>
                 <Calculator/>
+                <Game xNum={5}/>
             </div>
         )
     }
-}
-
+};
 export { App }

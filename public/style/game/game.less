@@ -1,0 +1,36 @@
+.gameBox {
+    margin-top: 10px;
+    .gameRow {
+        height: 105px;
+        overflow: hidden;
+        text-align: center;
+    }
+	.gameItem {
+		width: 100px;
+		height: 100px;
+		background: #fff;
+		border: 1px solid #ccc;
+		margin-right: 5px;
+        display: inline-block;
+        cursor: pointer;
+        transition: background-color .3s ease;
+        &.active {
+            background-color: #980;
+        }
+        &.checked {
+            background-color: #00a0ff;
+        }
+        &.active.checked {
+            position: relative;
+            &:after {
+                position: absolute;
+                content: 'checked';
+                color: #fff;
+                top: 50%;
+                left: 50%;
+                margin-left: -27px;
+                margin-top: -8px;
+            }
+        }
+	}
+}
