@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 16);
+/******/ 	return __webpack_require__(__webpack_require__.s = 17);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,9 +71,9 @@
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(17);
-} else {
   module.exports = __webpack_require__(18);
+} else {
+  module.exports = __webpack_require__(19);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
@@ -433,217 +433,6 @@ module.exports = emptyObject;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var validateFormat = function validateFormat(format) {};
-
-if (process.env.NODE_ENV !== 'production') {
-  validateFormat = function validateFormat(format) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  };
-}
-
-function invariant(condition, format, a, b, c, d, e, f) {
-  validateFormat(format);
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
-      }));
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-}
-
-module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-var emptyFunction = __webpack_require__(2);
-
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var warning = emptyFunction;
-
-if (process.env.NODE_ENV !== 'production') {
-  var printWarning = function printWarning(format) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    var argIndex = 0;
-    var message = 'Warning: ' + format.replace(/%s/g, function () {
-      return args[argIndex++];
-    });
-    if (typeof console !== 'undefined') {
-      console.error(message);
-    }
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      throw new Error(message);
-    } catch (x) {}
-  };
-
-  warning = function warning(condition, format) {
-    if (format === undefined) {
-      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
-    }
-
-    if (format.indexOf('Failed Composite propType: ') === 0) {
-      return; // Ignore CompositeComponent proptype check.
-    }
-
-    if (!condition) {
-      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-        args[_key2 - 2] = arguments[_key2];
-      }
-
-      printWarning.apply(undefined, [format].concat(args));
-    }
-  };
-}
-
-module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1015,6 +804,217 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var validateFormat = function validateFormat(format) {};
+
+if (process.env.NODE_ENV !== 'production') {
+  validateFormat = function validateFormat(format) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  };
+}
+
+function invariant(condition, format, a, b, c, d, e, f) {
+  validateFormat(format);
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(format.replace(/%s/g, function () {
+        return args[argIndex++];
+      }));
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+}
+
+module.exports = invariant;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+var emptyFunction = __webpack_require__(2);
+
+/**
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
+
+var warning = emptyFunction;
+
+if (process.env.NODE_ENV !== 'production') {
+  var printWarning = function printWarning(format) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    var argIndex = 0;
+    var message = 'Warning: ' + format.replace(/%s/g, function () {
+      return args[argIndex++];
+    });
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+
+  warning = function warning(condition, format) {
+    if (format === undefined) {
+      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
+    }
+
+    if (format.indexOf('Failed Composite propType: ') === 0) {
+      return; // Ignore CompositeComponent proptype check.
+    }
+
+    if (!condition) {
+      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        args[_key2 - 2] = arguments[_key2];
+      }
+
+      printWarning.apply(undefined, [format].concat(args));
+    }
+  };
+}
+
+module.exports = warning;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1029,9 +1029,9 @@ function updateLink (link, options, obj) {
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(5);
-  var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(19);
+  var invariant = __webpack_require__(6);
+  var warning = __webpack_require__(7);
+  var ReactPropTypesSecret = __webpack_require__(20);
   var loggedTypeFailures = {};
 }
 
@@ -1330,7 +1330,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(22);
+var isTextNode = __webpack_require__(23);
 
 /*eslint-disable no-bitwise */
 
@@ -1394,22 +1394,85 @@ module.exports = focusNode;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Button = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(20);
+var _button = __webpack_require__(33);
+
+var _button2 = _interopRequireDefault(_button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Button = function (_React$Component) {
+    _inherits(Button, _React$Component);
+
+    function Button(props) {
+        _classCallCheck(this, Button);
+
+        var _this = _possibleConstructorReturn(this, (Button.__proto__ || Object.getPrototypeOf(Button)).call(this, props));
+
+        _this.handleClick = _this.handleClick.bind(_this);
+        return _this;
+    }
+
+    _createClass(Button, [{
+        key: 'handleClick',
+        value: function handleClick() {
+            this.props.onClick();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'button',
+                { type: 'button', onClick: this.handleClick, className: 'default' },
+                this.props.children
+            );
+        }
+    }]);
+
+    return Button;
+}(_react2.default.Component);
+
+exports.Button = Button;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(21);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _App = __webpack_require__(29);
+var _App = __webpack_require__(30);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom2.default.render(_react2.default.createElement(_App.App, null), document.getElementById('app'));
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1437,7 +1500,7 @@ isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1460,8 +1523,8 @@ if (process.env.NODE_ENV !== "production") {
 
 var _assign = __webpack_require__(3);
 var emptyObject = __webpack_require__(4);
-var invariant = __webpack_require__(5);
-var warning = __webpack_require__(6);
+var invariant = __webpack_require__(6);
+var warning = __webpack_require__(7);
 var emptyFunction = __webpack_require__(2);
 var checkPropTypes = __webpack_require__(9);
 
@@ -2802,7 +2865,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2821,7 +2884,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2859,15 +2922,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(21);
+  module.exports = __webpack_require__(22);
 } else {
-  module.exports = __webpack_require__(24);
+  module.exports = __webpack_require__(25);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3103,7 +3166,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3118,7 +3181,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
  * @typechecks
  */
 
-var isNode = __webpack_require__(23);
+var isNode = __webpack_require__(24);
 
 /**
  * @param {*} object The object to check.
@@ -3131,7 +3194,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3159,7 +3222,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3181,8 +3244,8 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var React = __webpack_require__(0);
-var invariant = __webpack_require__(5);
-var warning = __webpack_require__(6);
+var invariant = __webpack_require__(6);
+var warning = __webpack_require__(7);
 var ExecutionEnvironment = __webpack_require__(10);
 var _assign = __webpack_require__(3);
 var emptyFunction = __webpack_require__(2);
@@ -3193,8 +3256,8 @@ var containsNode = __webpack_require__(14);
 var focusNode = __webpack_require__(15);
 var emptyObject = __webpack_require__(4);
 var checkPropTypes = __webpack_require__(9);
-var hyphenateStyleName = __webpack_require__(25);
-var camelizeStyleName = __webpack_require__(27);
+var hyphenateStyleName = __webpack_require__(26);
+var camelizeStyleName = __webpack_require__(28);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -18561,7 +18624,7 @@ module.exports = reactDom;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18576,7 +18639,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(26);
+var hyphenate = __webpack_require__(27);
 
 var msPattern = /^ms-/;
 
@@ -18603,7 +18666,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18639,7 +18702,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18654,7 +18717,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(28);
+var camelize = __webpack_require__(29);
 
 var msPattern = /^-ms-/;
 
@@ -18682,7 +18745,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18717,7 +18780,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18734,7 +18797,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _index = __webpack_require__(30);
+var _index = __webpack_require__(31);
 
 var _clock = __webpack_require__(37);
 
@@ -18762,16 +18825,31 @@ var App = function (_React$Component) {
     function App(props) {
         _classCallCheck(this, App);
 
-        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+        _this.onHandleMenuLi = _this.onHandleMenuLi.bind(_this);
+        _this.state = {
+            showGame: false
+        };
+        return _this;
     }
 
     _createClass(App, [{
+        key: 'onHandleMenuLi',
+        value: function onHandleMenuLi(value) {
+            if (value === 'game') {
+                this.setState({
+                    showGame: !this.state.showGame
+                });
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(_head.Header, null),
+                _react2.default.createElement(_head.Header, { onHandleMenuLi: this.onHandleMenuLi }),
                 _react2.default.createElement(_bg.BackGround, null),
                 _react2.default.createElement(_index.Action, null),
                 _react2.default.createElement(_clock.Clock, null),
@@ -18779,7 +18857,7 @@ var App = function (_React$Component) {
                 _react2.default.createElement(_clock.Clock, null),
                 _react2.default.createElement(_reservation.Reservation, null),
                 _react2.default.createElement(_Calculator.Calculator, null),
-                _react2.default.createElement(_game.Game, { xNum: 5 })
+                _react2.default.createElement(_game.Game, { animation: this.state.showGame ? 'active' : '' })
             );
         }
     }]);
@@ -18791,7 +18869,7 @@ var App = function (_React$Component) {
 exports.App = App;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18808,7 +18886,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _leftBar = __webpack_require__(31);
+var _leftBar = __webpack_require__(32);
 
 var _basket = __webpack_require__(36);
 
@@ -18874,7 +18952,7 @@ var Action = function (_React$Component) {
 exports.Action = Action;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18891,7 +18969,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _button = __webpack_require__(32);
+var _button = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18948,69 +19026,6 @@ var LeftBar = function (_React$Component) {
 exports.LeftBar = LeftBar;
 
 /***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.Button = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _button = __webpack_require__(33);
-
-var _button2 = _interopRequireDefault(_button);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Button = function (_React$Component) {
-    _inherits(Button, _React$Component);
-
-    function Button(props) {
-        _classCallCheck(this, Button);
-
-        var _this = _possibleConstructorReturn(this, (Button.__proto__ || Object.getPrototypeOf(Button)).call(this, props));
-
-        _this.handleClick = _this.handleClick.bind(_this);
-        return _this;
-    }
-
-    _createClass(Button, [{
-        key: 'handleClick',
-        value: function handleClick() {
-            this.props.onClick();
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'button',
-                { type: 'button', onClick: this.handleClick, className: 'default' },
-                this.props.children
-            );
-        }
-    }]);
-
-    return Button;
-}(_react2.default.Component);
-
-exports.Button = Button;
-
-/***/ }),
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19025,7 +19040,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, options);
+var update = __webpack_require__(5)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -19045,7 +19060,7 @@ if(false) {
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)(undefined);
+exports = module.exports = __webpack_require__(8)(undefined);
 // imports
 
 
@@ -19386,7 +19401,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, options);
+var update = __webpack_require__(5)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -19406,7 +19421,7 @@ if(false) {
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)(undefined);
+exports = module.exports = __webpack_require__(8)(undefined);
 // imports
 
 
@@ -19752,7 +19767,7 @@ var _react2 = _interopRequireDefault(_react);
 
 __webpack_require__(46);
 
-var _index = __webpack_require__(32);
+var _index = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19777,6 +19792,7 @@ function Repeat(props, key) {
 
 function Row(props) {
     var items = [];
+    var needDivs = [];
 
     var _loop = function _loop(i) {
         items.push(_react2.default.createElement(
@@ -19784,7 +19800,7 @@ function Row(props) {
             { numTimes: props.xNum, key: i },
             function (index) {
                 return _react2.default.createElement('div', { key: index, ref: function ref(div) {
-                        props.divs.push(div);
+                        props.divs.length <= 24 && props.divs.push(div);
                     }, className: 'gameItem', 'data-x': index, 'data-y': i, onClick: function onClick(e) {
                         return props.onClickItem([index, i], e);
                     } });
@@ -19843,25 +19859,27 @@ var Game = function (_React$Component) {
             }
         }
     }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.init();
-        }
-    }, {
         key: 'init',
         value: function init() {
-            var _this2 = this;
+            var _this3 = this;
 
             var arr = [];
-            for (var i = 0; i < this.props.numGames; i++) {
-                arr.push(i);
+
+            function random() {
+                var _this2 = this;
+
+                for (var i = 0; i < this.props.numGames; i++) {
+                    arr.push(i);
+                }
+                return arr.map(function (_item) {
+                    return [Math.floor(Math.random() * _this2.state.xNum), Math.floor(Math.random() * _this2.state.xNum)];
+                });
             }
-            this.points = arr.map(function (_item) {
-                return [Math.floor(Math.random() * _this2.state.xNum), Math.floor(Math.random() * _this2.state.xNum)];
-            });
+            this.points = random();
+            this.points = this.points.filter(function (item) {});
             console.log(this.points);
-            for (var _i = 0; _i < this.points.length; _i++) {
-                var point = this.points[_i];
+            for (var i = 0; i < this.points.length; i++) {
+                var point = this.points[i];
                 for (var j = 0; j < this.state.divs.length; j++) {
                     var div = this.state.divs[j];
                     if (point[0] == div.getAttribute('data-x') && point[1] == div.getAttribute('data-y')) {
@@ -19871,7 +19889,7 @@ var Game = function (_React$Component) {
                 }
             }
             setTimeout(function () {
-                _this2.state.divs.forEach(function (div) {
+                _this3.state.divs.forEach(function (div) {
                     if (div.classList.contains('active')) {
                         div.classList.remove('active');
                     }
@@ -19883,6 +19901,9 @@ var Game = function (_React$Component) {
         value: function handleClick() {
             this.count = 0;
             this.clickTimes = 0;
+            this.setState({
+                divs: []
+            });
             this.state.divs.forEach(function (div) {
                 if (div.classList.contains('checked')) {
                     div.classList.remove('checked');
@@ -19896,7 +19917,7 @@ var Game = function (_React$Component) {
     }, {
         key: 'handleItem',
         value: function handleItem(point, e) {
-            var _this3 = this;
+            var _this4 = this;
 
             var div = e.target;
             div.classList.add('checked');
@@ -19910,15 +19931,15 @@ var Game = function (_React$Component) {
             if (this.count === this.props.numGames) {
                 setTimeout(function () {
                     alert('You Win');
-                    _this3.handleClick();
+                    _this4.handleClick();
                 }, 300);
             } else if (this.clickTimes > 2) {
                 setTimeout(function () {
                     alert('You Lost');
-                    for (var i = 0; i < _this3.points.length; i++) {
-                        var _point = _this3.points[i];
-                        for (var j = 0; j < _this3.state.divs.length; j++) {
-                            var _div = _this3.state.divs[j];
+                    for (var i = 0; i < _this4.points.length; i++) {
+                        var _point = _this4.points[i];
+                        for (var j = 0; j < _this4.state.divs.length; j++) {
+                            var _div = _this4.state.divs[j];
                             if (_point[0] == _div.getAttribute('data-x') && _point[1] == _div.getAttribute('data-y')) {
                                 _div.className += ' active';
                                 break;
@@ -19934,7 +19955,7 @@ var Game = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                { className: 'gameBox' },
+                { className: 'gameBox ' + this.props.animation },
                 _react2.default.createElement(Row, { xNum: this.state.xNum, divs: this.state.divs, yNum: this.state.xNum, onClickItem: this.handleItem }),
                 _react2.default.createElement(
                     _index.Button,
@@ -19968,7 +19989,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, options);
+var update = __webpack_require__(5)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -19988,12 +20009,12 @@ if(false) {
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)(undefined);
+exports = module.exports = __webpack_require__(8)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, ".gameBox {\n  margin-top: 10px;\n}\n.gameBox .gameRow {\n  height: 105px;\n  overflow: hidden;\n  text-align: center;\n}\n.gameBox .gameItem {\n  width: 100px;\n  height: 100px;\n  background: #fff;\n  border: 1px solid #ccc;\n  margin-right: 5px;\n  display: inline-block;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.gameBox .gameItem.active {\n  background-color: #980;\n}\n.gameBox .gameItem.checked {\n  background-color: #00a0ff;\n}\n.gameBox .gameItem.active.checked {\n  position: relative;\n}\n.gameBox .gameItem.active.checked:after {\n  position: absolute;\n  content: 'checked';\n  color: #fff;\n  top: 50%;\n  left: 50%;\n  margin-left: -27px;\n  margin-top: -8px;\n}\n", ""]);
+exports.push([module.i, ".gameBox {\n  margin-top: 10px;\n  position: absolute;\n  visibility: hidden;\n  top: calc(50% + 40px);\n  left: 50%;\n  transition: all .3s ease;\n  opacity: 0;\n}\n.gameBox .gameRow {\n  height: 105px;\n  overflow: hidden;\n  text-align: center;\n}\n.gameBox .gameItem {\n  width: 100px;\n  height: 100px;\n  background: #fff;\n  border: 1px solid #ccc;\n  margin-right: 5px;\n  display: inline-block;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.gameBox .gameItem.active {\n  background-color: #980;\n}\n.gameBox .gameItem.checked {\n  background-color: #00a0ff;\n}\n.gameBox .gameItem.active.checked {\n  position: relative;\n}\n.gameBox .gameItem.active.checked:after {\n  position: absolute;\n  content: 'checked';\n  color: #fff;\n  top: 50%;\n  left: 50%;\n  margin-left: -27px;\n  margin-top: -8px;\n}\n.gameBox.active {\n  visibility: visible;\n  opacity: 1;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n@media screen and (max-width: 768px) {\n  .gameBox {\n    width: 90%;\n  }\n  .gameBox .gameRow {\n    height: auto;\n  }\n  .gameBox .gameItem {\n    width: 50px;\n    height: 50px;\n  }\n}\n", ""]);
 
 // exports
 
@@ -20035,6 +20056,7 @@ var Header = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
 
 		_this.handleMenu = _this.handleMenu.bind(_this);
+		_this.handleMenuLi = _this.handleMenuLi.bind(_this);
 		_this.state = {
 			rightBar: [{ value: '————', type: 'line' }, { value: 'game', type: 'other' }]
 		};
@@ -20054,6 +20076,12 @@ var Header = function (_React$Component) {
 				this.menu.classList.add('active');
 				MenuOverlay.classList.add('active');
 			}
+		}
+	}, {
+		key: 'handleMenuLi',
+		value: function handleMenuLi(value) {
+			this.handleMenu();
+			this.props.onHandleMenuLi(value);
 		}
 	}, {
 		key: 'render',
@@ -20091,14 +20119,16 @@ var Header = function (_React$Component) {
 							this.state.rightBar.map(function (item, index) {
 								return _react2.default.createElement(
 									'li',
-									{ key: index },
+									{ key: index, className: 'menu-li-' + (index + 1) },
 									item.type === 'line' ? _react2.default.createElement(
 										'span',
 										null,
 										item.value
 									) : _react2.default.createElement(
 										'a',
-										{ href: 'javascript:void(0);' },
+										{ href: 'javascript:void(0);', onClick: function onClick() {
+												return _this2.handleMenuLi(item.value);
+											} },
 										item.value
 									)
 								);
@@ -20130,7 +20160,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, options);
+var update = __webpack_require__(5)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -20150,12 +20180,12 @@ if(false) {
 /* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)(undefined);
+exports = module.exports = __webpack_require__(8)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, ".header {\n  height: 100px;\n  color: #fff;\n  position: relative;\n  background: rgba(44, 62, 80, 0.3);\n}\n.header .logo {\n  width: 98px;\n  height: 100%;\n  background: rgba(255, 255, 255, 0.5) url('/images/logo.png') center center no-repeat;\n  background-size: 123%;\n}\n.header .menu {\n  color: #fff;\n  text-decoration: none;\n  font-size: 16pt;\n  cursor: pointer;\n  font-weight: bold;\n  font-style: italic;\n  text-transform: uppercase;\n  width: 34px;\n  height: 34px;\n  display: block;\n  position: absolute;\n  top: 1.6em;\n  right: 1.5em;\n}\n.header .menu span {\n  display: block;\n  -webkit-transform: translate(7px, 9px);\n          transform: translate(7px, 9px);\n}\n.header .menu s.bar {\n  width: 20px;\n  height: 2px;\n  display: block;\n  background-color: #fff;\n  margin-bottom: 5px;\n  transition: opacity 0.3s ease 0.3s, -webkit-transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease 0.3s;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease 0.3s, -webkit-transform 0.3s ease-in-out;\n  transfrom-origin: 17px 17px;\n}\n.header .menu.active s.bar:first-child {\n  -webkit-transform: rotate(45deg);\n          transform: rotate(45deg);\n  position: absolute;\n}\n.header .menu.active s.bar:nth-child(2) {\n  -webkit-transform: rotate(-45deg);\n          transform: rotate(-45deg);\n  position: absolute;\n}\n.header .menu.active s.bar:last-child {\n  position: absolute;\n  visibility: hidden;\n  opacity: 0;\n}\n.header .menuList {\n  position: fixed;\n  top: 100px;\n  right: 0;\n  width: 300px;\n  bottom: 0;\n  transition: -webkit-transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;\n  -webkit-transform: translate3d(100%, 0, 0);\n          transform: translate3d(100%, 0, 0);\n  background: rgba(44, 62, 80, 0.3);\n}\n.header .menuList.active {\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n}\n", ""]);
+exports.push([module.i, ".header {\n  height: 100px;\n  color: #fff;\n  position: relative;\n  background: rgba(44, 62, 80, 0.3);\n  z-index: 1;\n}\n.header .logo {\n  width: 98px;\n  height: 100%;\n  background: rgba(255, 255, 255, 0.5) url('/images/logo.png') center center no-repeat;\n  background-size: 123%;\n}\n.header .menu {\n  color: #fff;\n  text-decoration: none;\n  font-size: 16pt;\n  cursor: pointer;\n  font-weight: bold;\n  font-style: italic;\n  text-transform: uppercase;\n  width: 34px;\n  height: 34px;\n  display: block;\n  position: absolute;\n  top: 1.6em;\n  right: 1.5em;\n}\n.header .menu span {\n  display: block;\n  -webkit-transform: translate(7px, 9px);\n          transform: translate(7px, 9px);\n}\n.header .menu s.bar {\n  width: 20px;\n  height: 2px;\n  display: block;\n  background-color: #fff;\n  margin-bottom: 5px;\n  transition: opacity 0.3s ease 0.3s, -webkit-transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease 0.3s;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease 0.3s, -webkit-transform 0.3s ease-in-out;\n  transfrom-origin: 17px 17px;\n}\n.header .menu.active s.bar:first-child {\n  -webkit-transform: rotate(45deg);\n          transform: rotate(45deg);\n  position: absolute;\n}\n.header .menu.active s.bar:nth-child(2) {\n  -webkit-transform: rotate(-45deg);\n          transform: rotate(-45deg);\n  position: absolute;\n}\n.header .menu.active s.bar:last-child {\n  position: absolute;\n  visibility: hidden;\n  opacity: 0;\n}\n.header .menuList {\n  position: fixed;\n  top: 100px;\n  right: 0;\n  width: 300px;\n  bottom: 0;\n  transition: -webkit-transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;\n  -webkit-transform: translate3d(100%, 0, 0);\n          transform: translate3d(100%, 0, 0);\n  background: rgba(44, 62, 80, 0.3);\n  z-index: 1;\n}\n.header .menuList.active {\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n}\n.header .menuList.active li {\n  -webkit-transform: translateX(0);\n          transform: translateX(0);\n}\n.header .menuList li {\n  transition: -webkit-transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;\n  -webkit-transform: translateX(100%);\n          transform: translateX(100%);\n}\n.header .menuList .menu-li-2 {\n  transition-delay: 0.16s;\n}\n.header .menuList .menu-li-1 {\n  transition-delay: 0.08s;\n}\n", ""]);
 
 // exports
 

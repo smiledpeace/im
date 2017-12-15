@@ -1,5 +1,11 @@
 .gameBox {
     margin-top: 10px;
+    position: absolute;
+    visibility: hidden;
+    top: ~'calc(50% + 40px)';
+    left: 50%;
+    transition: all .3s ease;
+    opacity: 0;
     .gameRow {
         height: 105px;
         overflow: hidden;
@@ -33,4 +39,21 @@
             }
         }
 	}
+    &.active {
+        visibility: visible;
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+@media screen and (max-width: 768px) {
+    .gameBox {
+        width: 90%;
+        .gameRow {
+            height: auto;
+        }
+        .gameItem {
+            width: 50px;
+            height: 50px;
+        }
+    }
 }

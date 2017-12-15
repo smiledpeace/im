@@ -4,6 +4,7 @@ class Header extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleMenu = this.handleMenu.bind(this);
+		this.handleMenuLi = this.handleMenuLi.bind(this);
 		this.state = {
 			rightBar: [{value: '————', type: 'line'}, {value: 'game', type: 'other'}]
 		}
@@ -22,6 +23,10 @@ class Header extends React.Component {
 			MenuOverlay.classList.add('active');
 		}
 	}
+	handleMenuLi(value) {
+		this.handleMenu();
+		this.props.onHandleMenuLi(value);
+	}
 	render() {
 		return (
 			<div className="header">
@@ -38,8 +43,8 @@ class Header extends React.Component {
 						<ul>
 							{
 								this.state.rightBar.map((item, index) => 
-									<li key={index}>
-										{item.type === 'line' ? <span>{item.value}</span> : <a href="javascript:void(0);">{item.value}</a>}
+									<li key={index} className={`menu-li-${index + 1}`}>
+										{item.type === 'line' ? <span>{item.value}</span> : <a href="javascript:void(0);" onClick={() => this.handleMenuLi(item.value)}>{item.value}</a>}
 									</li>
 								)	
 							}

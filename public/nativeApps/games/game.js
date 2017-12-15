@@ -12,10 +12,11 @@ function Repeat(props, key) {
 
 function Row(props) {
     let items = [];
+    let needDivs = [];
     for (let i = 0; i < props.yNum; i++) {
         items.push(
             <Repeat numTimes={props.xNum} key={i}>
-                {(index) => <div key={index} ref={(div) => {props.divs.push(div)}} className="gameItem" data-x={index} data-y={i} onClick={(e) => props.onClickItem([index, i], e)}>
+                {(index) => <div key={index} ref={(div) => {props.divs.length <= 24 && props.divs.push(div)}} className="gameItem" data-x={index} data-y={i} onClick={(e) => props.onClickItem([index, i], e)}>
 
                 </div>}
             </Repeat>
@@ -55,15 +56,19 @@ class Game extends React.Component {
 			});
 		}
     }
-    componentDidMount() {
-        this.init();
-    }
     init() {
         const arr = [];
-        for (var i = 0; i < this.props.numGames; i++) {
-            arr.push(i);
+        
+        function random() {
+            for (var i = 0; i < this.props.numGames; i++) {
+                arr.push(i);
+            }
+            return arr.map(_item => [Math.floor(Math.random() * this.state.xNum), Math.floor(Math.random() * this.state.xNum)]);
         }
-        this.points = arr.map(_item => [Math.floor(Math.random() * this.state.xNum), Math.floor(Math.random() * this.state.xNum)]);
+        this.points = random();
+        this.points = this.points.filter(item => {
+            
+        })
         console.log(this.points);
         for (let i = 0; i < this.points.length; i++) {
             let point = this.points[i];
@@ -86,6 +91,9 @@ class Game extends React.Component {
     handleClick() {
         this.count = 0;
         this.clickTimes = 0;
+        this.setState({
+            divs: [] 
+        });
         this.state.divs.forEach(div => {
             if (div.classList.contains('checked')) {
                 div.classList.remove('checked');
@@ -130,7 +138,7 @@ class Game extends React.Component {
     }
 	render() {
         return (
-			<div className="gameBox">
+			<div className={`gameBox ${this.props.animation}`}>
                 <Row xNum={this.state.xNum} divs={this.state.divs} yNum={this.state.xNum} onClickItem={this.handleItem}/>
                 <Button onClick={this.handleClick} className="">Play</Button>
 			</div>

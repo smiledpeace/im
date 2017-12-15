@@ -16,11 +16,22 @@ import { Header } from './head/head.js';
 class App extends React.Component {
     constructor(props) {
         super(props);
+        this.onHandleMenuLi = this.onHandleMenuLi.bind(this);
+        this.state = {
+            showGame: false
+        }
+    }
+    onHandleMenuLi(value) {
+        if (value === 'game') {
+            this.setState({
+                showGame: !this.state.showGame
+            });
+        }
     }
     render() {
         return (
             <div>
-                <Header />
+                <Header onHandleMenuLi={this.onHandleMenuLi}/>
                 <BackGround/>
                 <Action/>
                 <Clock />
@@ -28,7 +39,7 @@ class App extends React.Component {
                 <Clock />
                 <Reservation/>
                 <Calculator/>
-                <Game xNum={5}/>
+                <Game animation={this.state.showGame ? 'active' : ''}/>
             </div>
         )
     }
