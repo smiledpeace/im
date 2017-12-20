@@ -1,0 +1,116 @@
+.message-box {
+	width: 740px;
+	height: 550px;
+	border-radius: 5px;
+	position: absolute;
+    visibility: hidden;
+    top: ~'calc(50% + 40px)';
+    left: 50%;
+    transition: all .3s ease;
+    opacity: 0;
+    background-color: #fff;
+    .message-users {
+    	width: 250px;
+    	position: absolute;
+    	left: 0;
+    	top: 0;
+    	height: 100%;
+    	box-sizing: border-box;
+    	z-index: 1;
+    	background-color: #CE93D8;
+        border-radius: 5px 0 0 5px;
+        li {
+            display: flex;
+            padding: 6px 15px;
+            line-height: 30px;
+            box-sizing: border-box;
+            img.avatar {
+                width: 30px;
+                height: 30px;
+                border-radius: 30px;
+                margin-right: 12px;
+            }
+            p {
+                flex: 1;
+            }
+            &.active {
+                background-color: rgba(0,175,240 ,.31); 
+            }
+        }
+        
+    }
+    .message-title {
+        height: 50px;
+        line-height: 38px;
+        background: #55acee;
+        padding: 6px 15px;
+        .check-member {
+            float: right;
+            cursor: pointer;
+            color: #f9f9f9;
+            user-select: none;
+        }
+        overflow: hidden;
+    }
+    .message-over {
+        padding: 15px 15px 0;
+        height: ~'calc(100% - 50px)';
+        overflow-x: hidden;
+        overflow-y: auto;   
+
+    }
+    .message-contents {
+		margin-left: 250px;
+		height: ~'calc(100% - 180px)';
+        background: #68768A;
+        border-radius: 0 5px 0 0;
+        overflow: hidden;
+        ul {
+            list-style: none;
+        }
+        li {
+            overflow: hidden;
+            padding-bottom: 8px;
+        }
+        p.content {
+            background: #fff;
+            display: inline-block;
+            max-width: 240px;
+            border-radius: 4px;
+            line-height: 32px;
+            padding: 0 6px;
+            position: relative;
+            float: left;
+            &.self {
+                background: #4FC3F7;
+                float: right;
+            }
+        }
+        img.avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 30px;
+            float: left;
+            margin-right: 8px;
+            &.self {
+                float: right;
+                margin-left: 8px;
+            }
+        }
+    }
+    .message-input {
+    	margin-left: 250px;
+    	height: 180px;
+    	border-top: 1px solid #ebebeb;
+    	box-sizing: border-box;
+    	padding: 6px 15px;
+    	&:focus {
+			outline: none;
+    	}
+    }
+    &.active {
+		opacity: 1;
+        transform: translate(-50%, -50%);
+        visibility: visible;
+    }
+}

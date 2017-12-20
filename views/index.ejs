@@ -6,8 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><%= title %></title>
     <link rel="stylesheet" href="/style/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/pomelo-client.js"></script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
 </head>
 <body>
+    <input type="hidden" name="" id="type"   value="<%= type %>">
+    <input type="hidden" name="" id="param1" value="<%= param1 %>">
+    <input type="hidden" name="" id="param2" value="<%= param2 %>">
+    <input type="hidden" name="" id="param3" value="<%= param3 %>">
+    <input type="hidden" name="" id="param4" value="<%= param4 %>">
     <div id="app"></div>
     <div class="MenuOverlay"></div>
     <script src="/dist/build.js"></script>

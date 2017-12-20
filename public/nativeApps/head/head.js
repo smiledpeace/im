@@ -1,12 +1,21 @@
 import React from 'react';
 import '../../style/head/head.less';
+import { Clock } from '../clock/clock.js';
 class Header extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleMenu = this.handleMenu.bind(this);
 		this.handleMenuLi = this.handleMenuLi.bind(this);
 		this.state = {
-			rightBar: [{value: '————', type: 'line'}, {value: 'game', type: 'other'}]
+			rightBar: [
+				{value: '————', type: 'line'}, 
+				{value: 'game', type: 'other'},
+				{value: 'action', type: 'other'},
+				{value: 'reservation', type: 'other'},
+				{value: 'calculator', type: 'other'},
+				{value: 'chat', type: 'other'},
+
+			]
 		}
 	}
 	handleMenu() {
@@ -31,6 +40,7 @@ class Header extends React.Component {
 		return (
 			<div className="header">
 				<div className="logo"></div>
+				<Clock />
 				<div className="wrapper">
 					<a href="javascript:void(0);" ref={(a) => {this.menu = a}} onClick={this.handleMenu} className="menu">
 						<span>

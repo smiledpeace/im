@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../style/game/game.less';
 import { Button } from '../../components/button/index.js';
+import { Setting } from './setting.js'
 function Repeat(props, key) {
 
     let items = [];
@@ -16,7 +17,7 @@ function Row(props) {
     for (let i = 0; i < props.yNum; i++) {
         items.push(
             <Repeat numTimes={props.xNum} key={i}>
-                {(index) => <div key={index} ref={(div) => {props.divs.length <= 24 && props.divs.push(div)}} className="gameItem" data-x={index} data-y={i} onClick={(e) => props.onClickItem([index, i], e)}>
+                {(index) => <div key={index} ref={(div) => {props.divs.length <= (props.xNum * props.yNum - 1)  && props.divs.push(div)}} className="gameItem" data-x={index} data-y={i} onClick={(e) => props.onClickItem([index, i], e)}>
 
                 </div>}
             </Repeat>
@@ -39,37 +40,30 @@ class Game extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			xNum: 5,
+            xNum: 5,
+			yNum: 5,
             divs: []
 		};
 		this.points = [];
         this.count = 0;
         this.clickTimes = 0;
         this.handleClick = this.handleClick.bind(this);
-		this.handleItem = this.handleItem.bind(this);
+        this.handleItem = this.handleItem.bind(this);
+		this.onSetting = this.onSetting.bind(this);
 	}
 
     componentWillMount(nextProps, nextState) {
-        if (this.props.xNum) {
-			this.setState({
-				xNum: this.props.xNum,
-			});
-		}
     }
     init() {
         const arr = [];
-        
-        function random() {
-            for (var i = 0; i < this.props.numGames; i++) {
+        function random(_this) {
+            const len1 = Math.min.apply(null, [_this.state.xNum, _this.state.yNum])
+            for (var i = 0, len = len1 ; i < len; i++) {
                 arr.push(i);
             }
-            return arr.map(_item => [Math.floor(Math.random() * this.state.xNum), Math.floor(Math.random() * this.state.xNum)]);
+            return arr.map(_item => [Math.floor(Math.random() * _this.state.xNum), Math.floor(Math.random() * _this.state.yNum)]);
         }
-        this.points = random();
-        this.points = this.points.filter(item => {
-            
-        })
-        console.log(this.points);
+        this.points = random(this);
         for (let i = 0; i < this.points.length; i++) {
             let point = this.points[i];
             for (let j = 0; j < this.state.divs.length; j++) {
@@ -114,7 +108,7 @@ class Game extends React.Component {
         }else {
             this.clickTimes++;
         }
-        if (this.count === this.props.numGames) {
+        if (this.count === Math.min.apply(null, [this.state.xNum, this.state.yNum])) {
             setTimeout(() => {
                 alert('You Win');
                 this.handleClick();
@@ -134,18 +128,22 @@ class Game extends React.Component {
                 }
             }, 300)
         }
-        console.log(this.count);
+    }
+    onSetting(xNum, yNum) {
+        this.setState({
+            xNum,
+            yNum 
+        });
+        this.init();
     }
 	render() {
         return (
 			<div className={`gameBox ${this.props.animation}`}>
-                <Row xNum={this.state.xNum} divs={this.state.divs} yNum={this.state.xNum} onClickItem={this.handleItem}/>
+                <Setting onSetting={this.onSetting}/>
+                <Row xNum={this.state.xNum} divs={this.state.divs} yNum={this.state.yNum} onClickItem={this.handleItem}/>
                 <Button onClick={this.handleClick} className="">Play</Button>
 			</div>
 		);
 	}	
-}
-Game.defaultProps = {
-    numGames: 5        
 }
 export { Game };

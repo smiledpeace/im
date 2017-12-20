@@ -25,3 +25,35 @@ body {
     	opacity: 1;
     }
 }
+#app {
+    height: 100%;
+    overflow: hidden;
+    .section {
+        height: ~'calc(100% - 100px)';
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    .appWrapper {
+        height: 100%;
+    }
+}
+.clock {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+}
+
+
+@media screen and (max-width: 786px) {
+    .MenuOverlay {
+        right: 100px;
+    }
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+input[type="number"]{-moz-appearance:textfield;}

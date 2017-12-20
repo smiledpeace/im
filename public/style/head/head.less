@@ -75,14 +75,23 @@
 		li {
 			transition: transform .3s ease-in-out;
 			transform: translateX(100%);
+			padding: 6px 15px;
 		}
-		.loop-menu-li(2);
+		.loop-menu-li(6);
 	}
 }
-
+// 方法名
 .loop-menu-li(@count, @i: 1) when (@i <= @count) {
   	.loop-menu-li(@count, (@i + 1));
+  	// 类名
 	.menu-li-@{i} {
 		transition-delay: .08s * @i;
+	}
+}
+@media screen and (max-width: 768px) {
+	.header {
+		.menuList {
+			width: 100px;
+		}
 	}
 }
