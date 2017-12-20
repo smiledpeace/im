@@ -19572,6 +19572,8 @@ var _chat = __webpack_require__(59);
 
 var _registe = __webpack_require__(62);
 
+var _learn = __webpack_require__(86);
+
 var _util = __webpack_require__(65);
 
 var _comfirm = __webpack_require__(85);
@@ -19606,6 +19608,7 @@ var App = function (_React$Component) {
             showReservation: false,
             showCalculator: false,
             showChat: false,
+            showLearn: false,
             socket: null,
             g35user: null
         };
@@ -19683,6 +19686,17 @@ var App = function (_React$Component) {
                     showChat: !this.state.showChat
                 });
             }
+
+            if (value === 'learn') {
+                this.setState({
+                    showCalculator: false,
+                    showGame: false,
+                    showAction: false,
+                    showReservation: false,
+                    showChat: false,
+                    showLearn: !this.state.showLearn
+                });
+            }
         }
     }, {
         key: 'render',
@@ -19700,6 +19714,7 @@ var App = function (_React$Component) {
                     this.state.showReservation ? _react2.default.createElement(_reservation.Reservation, null) : '',
                     this.state.showCalculator ? _react2.default.createElement(_Calculator.Calculator, null) : '',
                     this.state.showChat ? _react2.default.createElement(_chat.Chat, { g35user: this.state.g35user, animation: 'active', socket: this.state.socket }) : '',
+                    this.state.showLearn ? _react2.default.createElement(_learn.Learn, { g35user: this.state.g35user }) : '',
                     _react2.default.createElement(_game.Game, { animation: this.state.showGame ? 'active' : '' })
                 )
             );
@@ -20927,7 +20942,7 @@ var Header = function (_React$Component) {
 		_this.handleMenu = _this.handleMenu.bind(_this);
 		_this.handleMenuLi = _this.handleMenuLi.bind(_this);
 		_this.state = {
-			rightBar: [{ value: '————', type: 'line' }, { value: 'game', type: 'other' }, { value: 'action', type: 'other' }, { value: 'reservation', type: 'other' }, { value: 'calculator', type: 'other' }, { value: 'chat', type: 'other' }]
+			rightBar: [{ value: '————', type: 'line' }, { value: 'game', type: 'other' }, { value: 'action', type: 'other' }, { value: 'reservation', type: 'other' }, { value: 'calculator', type: 'other' }, { value: 'chat', type: 'other' }, { value: 'learn', type: 'other' }]
 		};
 		return _this;
 	}
@@ -21055,7 +21070,7 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, ".header {\n  height: 100px;\n  color: #fff;\n  position: relative;\n  background: rgba(44, 62, 80, 0.3);\n  z-index: 1;\n}\n.header .logo {\n  width: 98px;\n  height: 100%;\n  background: rgba(255, 255, 255, 0.5) url('/images/logo.png') center center no-repeat;\n  background-size: 123%;\n}\n.header .menu {\n  color: #fff;\n  text-decoration: none;\n  font-size: 16pt;\n  cursor: pointer;\n  font-weight: bold;\n  font-style: italic;\n  text-transform: uppercase;\n  width: 34px;\n  height: 34px;\n  display: block;\n  position: absolute;\n  top: 1.6em;\n  right: 1.5em;\n}\n.header .menu span {\n  display: block;\n  -webkit-transform: translate(7px, 9px);\n          transform: translate(7px, 9px);\n}\n.header .menu s.bar {\n  width: 20px;\n  height: 2px;\n  display: block;\n  background-color: #fff;\n  margin-bottom: 5px;\n  transition: opacity 0.3s ease 0.3s, -webkit-transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease 0.3s;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease 0.3s, -webkit-transform 0.3s ease-in-out;\n  transfrom-origin: 17px 17px;\n}\n.header .menu.active s.bar:first-child {\n  -webkit-transform: rotate(45deg);\n          transform: rotate(45deg);\n  position: absolute;\n}\n.header .menu.active s.bar:nth-child(2) {\n  -webkit-transform: rotate(-45deg);\n          transform: rotate(-45deg);\n  position: absolute;\n}\n.header .menu.active s.bar:last-child {\n  position: absolute;\n  visibility: hidden;\n  opacity: 0;\n}\n.header .menuList {\n  position: fixed;\n  top: 100px;\n  right: 0;\n  width: 300px;\n  bottom: 0;\n  transition: -webkit-transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;\n  -webkit-transform: translate3d(100%, 0, 0);\n          transform: translate3d(100%, 0, 0);\n  background: rgba(44, 62, 80, 0.3);\n  z-index: 1;\n}\n.header .menuList.active {\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n}\n.header .menuList.active li {\n  -webkit-transform: translateX(0);\n          transform: translateX(0);\n}\n.header .menuList li {\n  transition: -webkit-transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;\n  -webkit-transform: translateX(100%);\n          transform: translateX(100%);\n  padding: 6px 15px;\n}\n.header .menuList .menu-li-6 {\n  transition-delay: 0.48s;\n}\n.header .menuList .menu-li-5 {\n  transition-delay: 0.4s;\n}\n.header .menuList .menu-li-4 {\n  transition-delay: 0.32s;\n}\n.header .menuList .menu-li-3 {\n  transition-delay: 0.24s;\n}\n.header .menuList .menu-li-2 {\n  transition-delay: 0.16s;\n}\n.header .menuList .menu-li-1 {\n  transition-delay: 0.08s;\n}\n@media screen and (max-width: 768px) {\n  .header .menuList {\n    width: 100px;\n  }\n}\n", ""]);
+exports.push([module.i, ".header {\n  height: 100px;\n  color: #fff;\n  position: relative;\n  background: rgba(44, 62, 80, 0.3);\n  z-index: 1;\n}\n.header .logo {\n  width: 98px;\n  height: 100%;\n  background: rgba(255, 255, 255, 0.5) url('/images/logo.png') center center no-repeat;\n  background-size: 123%;\n}\n.header .menu {\n  color: #fff;\n  text-decoration: none;\n  font-size: 16pt;\n  cursor: pointer;\n  font-weight: bold;\n  font-style: italic;\n  text-transform: uppercase;\n  width: 34px;\n  height: 34px;\n  display: block;\n  position: absolute;\n  top: 1.6em;\n  right: 1.5em;\n}\n.header .menu span {\n  display: block;\n  -webkit-transform: translate(7px, 9px);\n          transform: translate(7px, 9px);\n}\n.header .menu s.bar {\n  width: 20px;\n  height: 2px;\n  display: block;\n  background-color: #fff;\n  margin-bottom: 5px;\n  transition: opacity 0.3s ease 0.3s, -webkit-transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease 0.3s;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease 0.3s, -webkit-transform 0.3s ease-in-out;\n  transfrom-origin: 17px 17px;\n}\n.header .menu.active s.bar:first-child {\n  -webkit-transform: rotate(45deg);\n          transform: rotate(45deg);\n  position: absolute;\n}\n.header .menu.active s.bar:nth-child(2) {\n  -webkit-transform: rotate(-45deg);\n          transform: rotate(-45deg);\n  position: absolute;\n}\n.header .menu.active s.bar:last-child {\n  position: absolute;\n  visibility: hidden;\n  opacity: 0;\n}\n.header .menuList {\n  position: fixed;\n  top: 100px;\n  right: 0;\n  width: 300px;\n  bottom: 0;\n  transition: -webkit-transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;\n  -webkit-transform: translate3d(100%, 0, 0);\n          transform: translate3d(100%, 0, 0);\n  background: rgba(44, 62, 80, 0.3);\n  z-index: 1;\n}\n.header .menuList.active {\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n}\n.header .menuList.active li {\n  -webkit-transform: translateX(0);\n          transform: translateX(0);\n}\n.header .menuList li {\n  transition: -webkit-transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out;\n  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;\n  -webkit-transform: translateX(100%);\n          transform: translateX(100%);\n  padding: 6px 15px;\n}\n.header .menuList .menu-li-7 {\n  transition-delay: 0.56s;\n}\n.header .menuList .menu-li-6 {\n  transition-delay: 0.48s;\n}\n.header .menuList .menu-li-5 {\n  transition-delay: 0.4s;\n}\n.header .menuList .menu-li-4 {\n  transition-delay: 0.32s;\n}\n.header .menuList .menu-li-3 {\n  transition-delay: 0.24s;\n}\n.header .menuList .menu-li-2 {\n  transition-delay: 0.16s;\n}\n.header .menuList .menu-li-1 {\n  transition-delay: 0.08s;\n}\n@media screen and (max-width: 768px) {\n  .header .menuList {\n    width: 100px;\n  }\n}\n", ""]);
 
 // exports
 
@@ -22534,6 +22549,57 @@ var Confirm = function (_React$Component) {
 
 	return Confirm;
 }(_react2.default.Component);
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Learn = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Learn = function (_React$Component) {
+	_inherits(Learn, _React$Component);
+
+	function Learn(props) {
+		_classCallCheck(this, Learn);
+
+		return _possibleConstructorReturn(this, (Learn.__proto__ || Object.getPrototypeOf(Learn)).call(this, props));
+	}
+
+	_createClass(Learn, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				'1231'
+			);
+		}
+	}]);
+
+	return Learn;
+}(_react2.default.Component);
+
+exports.Learn = Learn;
 
 /***/ })
 /******/ ]);

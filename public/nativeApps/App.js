@@ -18,6 +18,8 @@ import { Chat } from './chat/chat.js';
 
 import { Registe } from './registe/registe.js';
 
+import { Learn } from './learn/learn.js';
+
 import { ajaxQuery } from '../js/util.js';
 
 import { Comfirm } from '../components/comfirm/comfirm.js'
@@ -39,6 +41,7 @@ class App extends React.Component {
             showReservation: false,
             showCalculator: false,
             showChat: false,
+            showLearn: false,
             socket: null,
             g35user: null
         }
@@ -109,6 +112,17 @@ class App extends React.Component {
                 showChat: !this.state.showChat,
             });
         }
+
+        if (value === 'learn') {
+            this.setState({
+                showCalculator: false,
+                showGame: false,
+                showAction: false,
+                showReservation: false,
+                showChat: false,
+                showLearn: !this.state.showLearn,
+            });
+        }
     }
     render() {
         return (
@@ -130,6 +144,9 @@ class App extends React.Component {
                     }
                     {
                         this.state.showChat ? <Chat g35user={this.state.g35user} animation={'active'} socket={this.state.socket}/> : ''
+                    }
+                    {
+                        this.state.showLearn ? <Learn g35user={this.state.g35user}/> : ''
                     }
                     
                     <Game animation={this.state.showGame ? 'active' : ''}/>

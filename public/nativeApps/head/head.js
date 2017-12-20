@@ -14,6 +14,7 @@ class Header extends React.Component {
 				{value: 'reservation', type: 'other'},
 				{value: 'calculator', type: 'other'},
 				{value: 'chat', type: 'other'},
+				{value: 'learn', type: 'other'},
 
 			]
 		}
