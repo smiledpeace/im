@@ -22,7 +22,11 @@ import { Learn } from './learn/learn.js';
 
 import { ajaxQuery } from '../js/util.js';
 
-import { Comfirm } from '../components/comfirm/comfirm.js'
+import { Confirm } from '../components/confirm/confirm.js';
+
+import { Editor } from './richEditor/editor.js';
+
+
 String.prototype.firstUpperCase = function(){
     return this.replace(/\b(\w)(\w*)/g, function($0, $1, $2) {
         return $1.toUpperCase() + $2.toLowerCase();
@@ -42,6 +46,7 @@ class App extends React.Component {
             showCalculator: false,
             showChat: false,
             showLearn: false,
+            showEditor: false,
             socket: null,
             g35user: null
         }
@@ -60,7 +65,7 @@ class App extends React.Component {
                     g35user: userObj 
                 });
                 this.state.socket.emit('online', userObj);
-                this.onHandleMenuLi('chat');
+                this.onHandleMenuLi('editor');
             }
         })
         
@@ -123,6 +128,18 @@ class App extends React.Component {
                 showLearn: !this.state.showLearn,
             });
         }
+
+        if (value === 'editor') {
+            this.setState({
+                showCalculator: false,
+                showGame: false,
+                showAction: false,
+                showReservation: false,
+                showChat: false,
+                showLearn: false,
+                showEditor: !this.state.showEditor,
+            });
+        }
     }
     render() {
         return (
@@ -147,6 +164,9 @@ class App extends React.Component {
                     }
                     {
                         this.state.showLearn ? <Learn g35user={this.state.g35user}/> : ''
+                    }
+                    {
+                        this.state.showEditor ? <Editor g35user={this.state.g35user}/> : ''
                     }
                     
                     <Game animation={this.state.showGame ? 'active' : ''}/>

@@ -10,7 +10,7 @@ class BackGround extends React.Component {
     }
     componentWillMount() {
         this.setState({
-            imgUrl: `url('/images/img_${parseInt(Math.random() * 7) + 1}.jpg')`
+            imgUrl: `url('/images/img_${parseInt(Math.random() * 13) + 1}.jpg')`
         });
     }
 

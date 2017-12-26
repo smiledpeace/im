@@ -1,0 +1,40 @@
+.box {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, .4);
+	visibility: hidden;
+	transition: opacity .3s ease, visibility .3s ease;
+	opacity: 0;
+	section {
+		transition: transform .3s ease;
+		background-color: #fff;
+		border-radius: 4px;
+		width: 300px;
+		height: 150px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-left: -150px;
+		margin-top: -75px;
+		padding: 6px 15px;
+		.content {
+			height: ~'calc(100% - 33px)';
+		}
+		.footer {
+			text-align: right;
+			button {
+				margin-left: 12px;
+			}
+		}
+	}
+	&.show {
+		section {
+			transform: translate3d(0, 50px, 0);
+		}
+		visibility: visible;
+		opacity: 1;
+	}
+}

@@ -10,7 +10,7 @@ class Button extends React.Component {
     }
     render() {
         return (
-            <button type="button" onClick={ this.handleClick } className="default">
+            <button type="button" onClick={ this.handleClick } className={this.props.type ? this.props.type : 'default'}>
                 { this.props.children }
             </button>
         )
