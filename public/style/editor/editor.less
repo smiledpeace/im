@@ -7,10 +7,15 @@
 		width: 620px;
 		margin: auto;
 		margin-bottom: 12px; 
+		display: flex;
+		flex-wrap: wrap;
 		li {
-			float: left;
+			// float: left;
 			margin-right: 8px;
 			cursor: pointer;
+			button {
+				min-width: 72px;
+			}
 		}
 	}
 	#rich-editor {
@@ -25,6 +30,33 @@
 		}
 		ol {
 			list-style: decimal;
+		}
+		ul.checkBox {
+			list-style: none;
+			padding-left: 2em;
+			li {
+				margin-left: -1.5em;
+			}
+			li.icon-check, li.icon-checked {
+				font-size: 14px;
+			}
+			li.icon-check:before {
+				display: inline-block;
+				cursor: pointer;
+				margin-right: 8px;
+			}
+			li.icon-checked:before {
+				display: inline-block;
+				cursor: pointer;
+				margin-right: 8px;
+			}
+		}
+		a {
+			color: #00a0ff;
+		}
+		img {
+			width: 100%;
+			height: auto;
 		}
 		&:focus {
 			outline: none;

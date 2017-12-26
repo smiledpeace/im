@@ -22767,6 +22767,10 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _util = __webpack_require__(21);
+
+__webpack_require__(88);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22784,7 +22788,7 @@ var Editor = function (_React$Component) {
 		var _this2 = _possibleConstructorReturn(this, (Editor.__proto__ || Object.getPrototypeOf(Editor)).call(this, props));
 
 		_this2.state = {
-			navs: [{ value: '有序列表', key: 'OL' }, { value: '无序列表', key: 'UL' }, { value: '粗体', key: 'B' }, { value: '下划线', key: 'HR' }, { value: '左对齐', key: 'LEFT' }, { value: '右对齐', key: 'RIGHT' }, { value: '居中对齐', key: 'CENTER' }, { value: '文本对齐', key: 'FULL' }, { value: '任务列表', key: 'CHECKBOX' }],
+			navs: [{ value: '有序列表', key: 'icon-order' }, { value: '无序列表', key: 'icon-unOrder' }, { value: '粗体', key: 'icon-jiacu' }, { value: '斜体', key: 'icon-qingxie' }, { value: '下划线', key: 'icon-xiahuaxian' }, { value: '删除线', key: 'strikeThrough' }, { value: '分割线', key: 'insertHorizontalRule' }, { value: '左对齐', key: 'justifyCenter' }, { value: '右对齐', key: 'justifyRight' }, { value: '居中对齐', key: 'icon-juzhong' }, { value: '文本对齐', key: 'justifyFull' }, { value: '任务列表', key: 'icon-check' }, { value: '大标题', key: 'H1' }, { value: '中标题', key: 'H2' }, { value: '小标题', key: 'H3' }, { value: '普通', key: 'P' }, { value: '9', key: 'fontSize9' }, { value: '11', key: 'fontSize10' }, { value: '12', key: 'fontSize11' }, { value: '14', key: 'fontSize12' }, { value: '18', key: 'fontSize14' }, { value: '30', key: 'fontSize18' }, { value: '36', key: 'fontSize24' }, { value: '增加缩进', key: 'indent' }, { value: '减少缩进', key: 'outdent' }, { value: '插入链接', key: 'insertLink' }, { value: '插入图片', key: 'icon-left-image' }, { value: '撤销', key: 'icon-unredo' }, { value: '重做', key: 'redo' }, { value: '颜色', key: 'foreColor' }, { value: '背景色', key: 'backColor' }, { value: '清除格式', key: 'removeFormat' }],
 			editor: null,
 			where: null,
 			range: null,
@@ -22807,16 +22811,24 @@ var Editor = function (_React$Component) {
 				editor: document.querySelector('#rich-editor')
 			});
 			document.querySelector('#rich-editor').innerHTML = '<p><br /></p>';
+			document.querySelector('#rich-editor').focus();
 			document.querySelector('#rich-editor').addEventListener('keyup', function (e) {
 				if (e.keyCode === 13) {
 					where = _this.getRange().endContainer;
-					console.log(where);
+					_this.adjustList();
 					if (where.tagName === 'DIV') {
 						var p = _this.createP();
 						// console.log(_this.findParentByTagName(where.parentNode, where));;
 						where.parentNode.appendChild(p);
 						where.parentNode.removeChild(where);
 					}
+					if (where.tagName === 'FONT') {
+						// _this.resetRange()
+						_this.getRange().insertNode(_this.createP());
+						// _this.getRange().endContainer.remove();
+					}
+					var li = where.tagName === 'SPAN' && _this.findParentByTagName(where, 'li');
+					li && _this.checkBoxEvent(_this, li);
 				}
 			});
 			document.querySelector('#rich-editor').addEventListener('keyup', function (e) {
@@ -22834,67 +22846,277 @@ var Editor = function (_React$Component) {
 
 			console.log(key);
 			var range = this.getRange();
-			var currentendContainer = null;
+			var _this = this;
+			var currentendContainer = null,
+			    container = document.querySelector('#rich-editor');
 			this.setState({
 				hrCount: ++this.state.hrCount
 			});
 			if (range) {
 				switch (key) {
-					case 'UL':
-						document.execCommand('insertUnorderedList', false, null);
-						this.adjustList();
-						break;
-					case 'OL':
+					case 'icon-order':
 						document.execCommand('insertOrderedList', false, null);
 						this.adjustList();
 						break;
-					case 'B':
+					case 'icon-unOrder':
+						document.execCommand('insertUnorderedList', false, null);
+						this.adjustList();
+						break;
+					case 'icon-jiacu':
 						document.execCommand('bold', false, null);
 						break;
-					case 'HR':
+					case 'icon-qingxie':
+						document.execCommand('italic', false, null);
+						break;
+					case 'icon-xiahuaxian':
+						document.execCommand('underline', false, null);
+						break;
+					case 'strikeThrough':
+						document.execCommand('strikeThrough', false, null);
+						break;
+					case 'insertHorizontalRule':
 						document.execCommand('insertHorizontalRule', false, 'id' + this.state.hrCount);
 						setTimeout(function () {
 							// 如果hr  是在li标签里面 往后追加 文本节点 否则追加 <p><br /></p>
-							var hr = document.querySelector('#id' + _this3.state.hrCount),
-							    container = document.querySelector('#rich-editor');
+							var hr = document.querySelector('#id' + _this3.state.hrCount);
 							if (hr.parentNode.tagName === 'LI') {
 								container.appendChild(document.createTextNode());
 							} else {
-								var p = _this3.createP;
+								var p = _this3.createP();
 								container.appendChild(p);
 								_this3.resetRange(p, 0, p, 0);
 							}
 						}, 0);
 						break;
-					case 'LEFT':
+					case 'justifyLeft':
 						document.execCommand('justifyLeft', false, null);
 						break;
-					case 'RIGHT':
+					case 'justifyRight':
 						document.execCommand('justifyRight', false, null);
 						break;
-					case 'CENTER':
+					case 'icon-juzhong':
 						document.execCommand('justifyCenter', false, null);
 						break;
-					case 'FULL':
+					case 'justifyFull':
 						document.execCommand('justifyFull', false, null);
 						break;
-					case 'CHECKBOX':
-						document.execCommand('insertUnorderedList', false, 'className');
+					case 'icon-check':
 						currentendContainer = range.endContainer;
 						console.log(currentendContainer);
-						this.adjustList();
-						// document.execCommand('justifyFull', false, null);
+						console.log(currentendContainer.parentNode);
+						if ((currentendContainer.parentNode.tagName === 'SPAN' || currentendContainer.tagName === 'LI' || currentendContainer.parentNode.tagName === 'LI') && (currentendContainer.className || currentendContainer.parentNode.className)) {
+							var ul = this.findParentByTagName(range.endContainer, 'ul');
+							var li = this.findParentByTagName(range.endContainer, 'li');
+							var p = this.createP(range.endContainer);
+							if (ul.querySelectorAll('li').length === 1) {
+								ul.remove();
+							} else {
+								li.remove();
+							}
+							range.insertNode(p);
+							this.resetRange(p, 1, p, 1);
+						} else {
+							console.log(currentendContainer);
+							var parentNode = currentendContainer.parentNode;
+							var checkBox = this.createUL(currentendContainer);
+							if (parentNode.tagName === 'P') {
+								parentNode.remove();
+							} else if (range.endContainer.tagName === 'P') {
+								range.endContainer.remove();
+							} else if (parentNode.tagName === 'LI') {
+								parentNode.remove();
+							}
+							range.insertNode(checkBox);
+							console.log(checkBox.parentNode);
+							if (checkBox.parentNode) {
+								checkBox.parentNode.insertAdjacentElement('beforeEnd', checkBox);
+							}
+							this.resetRange(checkBox.firstElementChild.firstElementChild, parentNode.nodeType ? 1 : 0, checkBox.firstElementChild.firstElementChild, parentNode.nodeType ? 1 : 0);
+							this.checkBoxEvent(_this); // 事件绑定
+						}
+						break;
+					case "H1":
+						document.execCommand('formatBlock', false, 'H1');
+						break;
+					case "H2":
+						document.execCommand('formatBlock', false, 'H2');
+						break;
+					case "H3":
+						document.execCommand('formatBlock', false, 'H3');
+						break;
+					case "P":
+						document.execCommand('formatBlock', false, 'P');
+						break;
+					case "fontSize9":
+						document.execCommand('fontSize', false, 1);
+						break;
+					case "fontSize10":
+						document.execCommand('fontSize', false, 2);
+						break;
+					case "fontSize11":
+						document.execCommand('fontSize', false, 3);
+						break;
+					case "fontSize12":
+						document.execCommand('fontSize', false, 4);
+						break;
+					case "fontSize14":
+						document.execCommand('fontSize', false, 5);
+						break;
+					case "fontSize18":
+						document.execCommand('fontSize', false, 6);
+						break;
+					case "fontSize24":
+						document.execCommand('fontSize', false, 7);
+						break;
+					case "indent":
+						document.execCommand('indent', false, null);
+						break;
+					case "outdent":
+						document.execCommand('outdent', false, null);
+						break;
+					case "insertLink":
+						this.insertLink('https://www.baidu.com/', '百度');
+						break;
+					case "icon-left-image":
+						var inputFile = document.createElement('input');
+						inputFile.setAttribute('type', 'file');
+						inputFile.click();
+						inputFile.onchange = function () {
+							var formData = new FormData();
+							formData.append('files', inputFile.files[0]);
+							formData.append('fileName', inputFile.files[0].name);
+							(0, _util.ajaxQuery)('/users/upload', formData, function (res) {
+								res = res.data;
+								document.execCommand('insertImage', false, res.url);
+							});
+						};
+						break;
+					case 'redo':
+						document.execCommand('redo', false, null);
+						break;
+					case 'icon-unredo':
+						document.execCommand('undo', false, null);
+						break;
+					case 'foreColor':
+						document.execCommand('foreColor', false, '980');
+						break;
+					case 'backColor':
+						document.execCommand('backColor', false, '980');
+						break;
+					case 'removeFormat':
+						document.execCommand('removeFormat', false, null);
 						break;
 				}
 			}
 		}
 	}, {
+		key: 'uploadFile',
+		value: function uploadFile(e) {
+			var _this4 = this;
+
+			var formData = new FormData();
+			formData.append('files', e.target.files[0]);
+			formData.append('fileName', e.target.files[0].name);
+			(0, _util.ajaxQuery)('/users/upload', formData, function (res) {
+				res = res.data;
+				if (res.result === 'TRUE') {
+					_this4.setState({
+						avatar: res.url
+					});
+				}
+			});
+		}
+		/*
+   *	给任务列表绑定事件 
+   *	@param {Object} this 
+   */
+
+	}, {
+		key: 'checkBoxEvent',
+		value: function checkBoxEvent(_this, li) {
+
+			if (!li) {
+				var lis = Array.prototype.slice.call(document.querySelectorAll('ul.checkBox li'));
+				for (var i = 0, len = lis.length; i < len; i++) {
+					var _item = lis[i];
+					_item.addEventListener('click', function () {
+						var range = _this.getRange();
+						if (range.endOffset) {
+							return false;
+						}
+						_this.resetRange(this.firstElementChild, 1, this.firstElementChild, 1);
+						if (this.classList.contains('icon-check')) {
+							this.classList.remove('icon-check');
+							this.classList.add('icon-checked');
+						} else if (this.classList.contains('icon-checked')) {
+							this.classList.add('icon-check');
+							this.classList.remove('icon-checked');
+						}
+					});
+					// 阻止事件冒泡 
+					_item.firstElementChild && _item.firstElementChild.addEventListener('click', function (e) {
+						e.stopPropagation();
+						return false;
+					});
+				}
+			} else {
+				li.className = 'iconfont icon-check';
+				li.addEventListener('click', function () {
+					var range = _this.getRange();
+					if (range.endOffset) {
+						return false;
+					}
+					_this.resetRange(this.firstElementChild, 1, this.firstElementChild, 1);
+					if (this.classList.contains('icon-check')) {
+						this.classList.remove('icon-check');
+						this.classList.add('icon-checked');
+					} else if (this.classList.contains('icon-checked')) {
+						this.classList.add('icon-check');
+						this.classList.remove('icon-checked');
+					}
+				});
+				// 阻止事件冒泡 
+				li.firstElementChild && li.firstElementChild.addEventListener('click', function (e) {
+					e.stopPropagation();
+					return false;
+				});
+			}
+		}
+	}, {
 		key: 'createP',
-		value: function createP() {
+		value: function createP(node) {
+			// let flag =  document.createDocumentFragment();
 			var p = document.createElement('p'),
 			    br = document.createElement('br');
 			p.appendChild(br);
+			if (node && node.nodeValue) {
+				p.innerHTML = node.nodeValue;
+			} else if (node && node.innerHTML && typeof node.innerHTML === 'string') {
+				p.innerHTML = node.innerHTML;
+			} else if (node && node.insertHTML && node.innerHTML.nodeType) {
+				p.innerHTML = node.innerHTML.innerHTML;
+			}
+			// flag.appendChild(p);
 			return p;
+		}
+	}, {
+		key: 'createUL',
+		value: function createUL(node) {
+			// let flag =  document.createDocumentFragment();
+			var ul = document.createElement('ul'),
+			    li = document.createElement('li');
+			ul.className = 'checkBox';
+			li.className = 'iconfont icon-check';
+			if (node && node.nodeValue) {
+				li.innerHTML += '<span>' + (node.nodeValue || ' ') + '</span>';
+			} else if (node && node.innerHTML && typeof node.innerHTML === 'string') {
+				li.innerHTML += '<span>' + (node.innerHTML || ' ') + '</span>';
+			} else if (node && node.insertHTML && node.innerHTML.nodeType) {
+				li.innerHTML += '<span>' + (node.innerHTML.innerHTML || ' ') + '</span>';
+			}
+			ul.appendChild(li);
+			// flag.appendChild(ul);
+			return ul;
 		}
 	}, {
 		key: 'createElement',
@@ -22916,6 +23138,30 @@ var Editor = function (_React$Component) {
 				}
 			}
 		}
+		// 插入url
+
+	}, {
+		key: 'insertLink',
+		value: function insertLink(url, title) {
+			var selection = document.getSelection(),
+			    range = selection.getRangeAt(0);
+			if (range.collapsed) {
+				var start = range.startContainer,
+				    parent = this.findParentByTagName(start, 'a');
+				if (parent) {
+					parent.setAttribute('src', url);
+				} else {
+					this.insertHTML('<a href="javascript:void(0);" onclick="window.open(\'' + url + '\',\'_blank\');" target="_blank">' + title + '</a>');
+				}
+			} else {
+				document.execCommand('createLink', false, url);
+			}
+		}
+	}, {
+		key: 'insertHTML',
+		value: function insertHTML(html) {
+			document.execCommand('insertHTML', false, html);
+		}
 		/**
    * 查找父元素
    * @param {HTMLElement} root 
@@ -22926,6 +23172,10 @@ var Editor = function (_React$Component) {
 		key: 'findParentByTagName',
 		value: function findParentByTagName(root, name) {
 			var parent = root;
+			if (!parent) {
+				return false;
+			}
+			console.log(parent.nodeName);
 			if (typeof name === "string") {
 				name = [name];
 			}
@@ -22972,7 +23222,7 @@ var Editor = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this4 = this;
+			var _this5 = this;
 
 			return _react2.default.createElement(
 				'div',
@@ -22984,13 +23234,9 @@ var Editor = function (_React$Component) {
 						return _react2.default.createElement(
 							'li',
 							{ key: index },
-							_react2.default.createElement(
-								'button',
-								{ onClick: function onClick(e) {
-										return _this4.handleItem(e, _nav.key);
-									} },
-								_nav.value
-							),
+							_react2.default.createElement('button', { className: 'iconfont ' + _nav.key, onClick: function onClick(e) {
+									return _this5.handleItem(e, _nav.key);
+								} }),
 							' '
 						);
 					})
@@ -23004,6 +23250,51 @@ var Editor = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.Editor = Editor;
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(89);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {"hmr":true}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(5)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/autoprefixer-loader/index.js!../../../node_modules/less-loader/dist/cjs.js!./editor.less", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/autoprefixer-loader/index.js!../../../node_modules/less-loader/dist/cjs.js!./editor.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".editor-box {\n  height: 100%;\n}\n.editor-box ul.nav {\n  overflow: hidden;\n  background-color: #fff;\n  color: #333;\n  width: 620px;\n  margin: auto;\n  margin-bottom: 12px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n}\n.editor-box ul.nav li {\n  margin-right: 8px;\n  cursor: pointer;\n}\n.editor-box ul.nav li button {\n  min-width: 72px;\n}\n.editor-box #rich-editor {\n  height: 800px;\n  margin: auto;\n  width: 620px;\n  box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);\n  background-color: #fff;\n  padding: 6px 15px;\n}\n.editor-box #rich-editor ul {\n  list-style: disc;\n}\n.editor-box #rich-editor ol {\n  list-style: decimal;\n}\n.editor-box #rich-editor ul.checkBox {\n  list-style: none;\n  padding-left: 2em;\n}\n.editor-box #rich-editor ul.checkBox li {\n  margin-left: -1.5em;\n}\n.editor-box #rich-editor ul.checkBox li.icon-check,\n.editor-box #rich-editor ul.checkBox li.icon-checked {\n  font-size: 14px;\n}\n.editor-box #rich-editor ul.checkBox li.icon-check:before {\n  display: inline-block;\n  cursor: pointer;\n  margin-right: 8px;\n}\n.editor-box #rich-editor ul.checkBox li.icon-checked:before {\n  display: inline-block;\n  cursor: pointer;\n  margin-right: 8px;\n}\n.editor-box #rich-editor a {\n  color: #00a0ff;\n}\n.editor-box #rich-editor img {\n  width: 100%;\n  height: auto;\n}\n.editor-box #rich-editor:focus {\n  outline: none;\n}\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);
