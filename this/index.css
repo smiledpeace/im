@@ -1,0 +1,180 @@
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif, '楷体', 'Microsoft Yahei'; 
+}
+#app {
+	padding: 120px;
+	box-sizing: border-box;
+}
+.transition {
+	height: 100px;
+	width: 100px;
+	background-color: #fb79ab ;
+	cursor: pointer;
+	transition: all 1.3s ease;
+	animation: toda 1s ease;
+}
+.active {
+	/* transform: translate(120px, 0) rotate(360deg) */
+}
+.transition:hover {
+	background-color: #908734 ;
+	
+}
+
+@-webkit-keyframes toda {
+	0%{
+		transform: scale3d(1, 1, 1);
+	}
+	10%, 20%{
+		transform: scale3d(0.9, 0.9, 0.9) rotate3d(0 , 0 , 1, -3deg);
+	}
+	30%, 50%, 70%,  90% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0 , 0 , 1, 3deg);
+	}
+	40%, 60%, 80% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0 , 0 , 1, -3deg);
+	}
+	100% {
+		transform: scale3d(1, 1, 1);
+	}
+}
+@-o-keyframes toda {
+	0%{
+		transform: scale3d(1, 1, 1);
+	}
+	10%, 20%{
+		transform: scale3d(0.9, 0.9, 0.9) rotate3d(0 , 0 , 1, -3deg);
+	}
+	30%, 50%, 70%,  90% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0 , 0 , 1, 3deg);
+	}
+	40%, 60%, 80% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0 , 0 , 1, -3deg);
+	}
+	100% {
+		transform: scale3d(1, 1, 1);
+	}
+}
+@-moz-keyframes toda {
+	0%{
+		transform: scale3d(1, 1, 1);
+	}
+	10%, 20%{
+		transform: scale3d(0.9, 0.9, 0.9) rotate3d(0 , 0 , 1, -3deg);
+	}
+	30%, 50%, 70%,  90% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0 , 0 , 1, 3deg);
+	}
+	40%, 60%, 80% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0 , 0 , 1, -3deg);
+	}
+	100% {
+		transform: scale3d(1, 1, 1);
+	}
+}
+@keyframes toda {
+	0%{
+		transform: scale3d(1, 1, 1);
+	}
+	10%, 20%{
+		transform: scale3d(0.9, 0.9, 0.9) rotate3d(0 , 0 , 1, -3deg);
+	}
+	30%, 50%, 70%,  90% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0 , 0 , 1, 3deg);
+	}
+	40%, 60%, 80% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0 , 0 , 1, -3deg);
+	}
+	100% {
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+/*@supports (display:none) {
+    dot {
+        display: inline-block; 
+        width: 3ch;
+        text-indent: -1ch;
+        vertical-align: bottom; 
+        overflow: hidden;
+        animation: dot 3s infinite step-start both;
+        /* 等宽字体很重要 */
+        /*font-family: Consolas, Monaco, monospace;*/
+    /*}*/
+/*}*/
+
+/*@keyframes dot {
+    33% { text-indent: 0; }
+    66% { text-indent: -2ch; }
+}*/
+
+
+dot {
+    display: inline-block; 
+    height: 1em; 
+    line-height: 1;
+    text-align: left;
+    vertical-align: -.25em;
+    overflow: hidden;
+}
+dot::before {
+    display: block;
+    content: '...\A..\A.';
+    white-space: pre-wrap;   /* 也可以是white-space: pre */
+    animation: dot 3s infinite step-start both;
+}
+@keyframes dot {
+    33% { transform: translateY(-2em); }
+    66% { transform: translateY(-1em); }
+}
+#box {
+	width: 500px;
+	height: 380px;
+	box-sizing: border-box;
+	padding: 6px;
+	
+	position: absolute;
+	left: 100px;
+	top: 100px;
+	background-color: #FFB900;
+}
+#bar {
+	height: 32px;
+	padding: 2px 6px;
+	box-sizing: border-box;
+	background: #8E8CD8;
+	color: #fefefe;
+}
+#content {
+	height: 336px;
+	color: #fbfbfb;
+	border: 1px solid #8E8CD8;
+	box-sizing: border-box;
+	padding: 12px 6px;
+}
+#bar:hover {
+	cursor: -webkit-grabbing; cursor: -moz-grabbing; cursor: grabbing;
+}
+
+
+div.bgsize {
+    background: linear-gradient(90deg,  #ffc700 0%, #e91e1e 33%, #6f27b0 66%, #00ff88 100%);
+    background-position: 100% 0;
+    animation: bgSize 5s infinite ease-in-out alternate;
+ 	height: 120px;
+}
+ 
+@keyframes bgSize {
+    0% {
+        background-size: 300% 100%;
+    }
+    100% {
+        background-size: 100% 100%;
+    }
+}

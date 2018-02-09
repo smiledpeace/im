@@ -1,0 +1,136 @@
+html, body {
+	height: 100%;
+}
+body {
+	margin: 0;
+	background-image: linear-gradient(to left, #333, #323232, #353535, #323232, #333);
+}
+
+figure {
+	width: 240px;
+	margin: 0;
+	
+	
+}
+figcaption {
+	transform-origin: 23% 35%;
+	opacity: 0;
+	transition: all 1.3s ease;
+}
+img {
+	width: 240px;
+	height: auto;
+	transform-origin: 23% 35%;
+	transition: all 1.3s ease;
+}
+img.first {
+	transform: translate(240px, 0) rotate(360deg);
+}
+
+figcaption.first {
+	opacity: 1;
+	transform: translate(240px, 0);
+}
+#app {
+	width: 793px;
+	height: 498px;
+	background-image: linear-gradient(36deg, #ccc 0%, #D3D3D3 33%, #f2f2f2 68%, #ebebeb 92%, #ccc);
+	margin: 120px auto 0;
+	border-radius: 10px;
+	box-shadow: 1px 1px 1px rgba(0 ,0, 0, .3);
+	user-select: none;
+	display: grid;
+	grid-template-columns: 500px 1fr;
+	grid-template-rows: 50px 1fr;
+}
+.containertitle {
+	grid-column: span 2;
+	font-family: Arial, Helvetica, sans-serif;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	line-height: 50px;
+	text-indent: 1.5em;
+	font-weight: bold;
+}
+#app .thumbnailimage {
+	padding: 7px;
+	display: inline-block;
+}
+.mainframe {
+	padding: 7px 20px 15px;
+	box-sizing: border-box;
+}
+.large_photo {
+	border-radius: 10px;
+	background-image: linear-gradient(to left, #333, #323232, #353535, #323232, #333);
+	color: #f2f2f2;
+	height: 100%;
+	box-shadow: inset 0 0 8px rgba(0, 0, 0, 1)
+}
+.large_photo:after {
+	/* content: "this is my Shine Time" */
+}
+.thumb_container {
+	width: 74px;
+	height: 74px;
+	background: #333;
+	box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+	border-radius: 5px;
+	position: relative;
+}
+.large_thumb_shine {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	visibility: hidden;
+	background: url('./imgs/shine.png') no-repeat;
+	background-position: -99px 0;
+	transition: background .3s;
+}
+.thumbnailimage img {
+	width: 100%;
+	height: 100%;
+	cursor: pointer;	
+	border: 3px solid #fff;
+	box-sizing: border-box;
+	transition: transform .3s linear, background .3s ease ;
+	transform-origin: center center; 
+	border-radius: 5px;
+}
+.thumbnailimage img:hover {
+	transform: translate3d(-10%, -10%, 0);
+	background-size: 100%;
+}
+
+/* .thumbnailimage img:hover + .large_thumb_shine {
+	visibility: visible;
+	background-position: -99px 0;
+} */
+
+@keyframes bgSize {
+    0% {
+        background-size: 300% 100%;
+    }
+    100% {
+        background-size: 100% 100%;
+    }
+}
+
+@keyframes toda {
+	0%{
+		transform: scale3d(1, 1, 1);
+	}
+	10%, 20%{
+		transform: scale3d(0.9, 0.9, 0.9) rotate3d(0 , 0 , 1, -3deg);
+	}
+	30%, 50%, 70%,  90% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0 , 0 , 1, 3deg);
+	}
+	40%, 60%, 80% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0 , 0 , 1, -3deg);
+	}
+	100% {
+		transform: scale3d(1, 1, 1);
+	}
+}

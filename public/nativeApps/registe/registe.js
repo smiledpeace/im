@@ -86,7 +86,7 @@ class Registe extends React.Component {
 				}
 				<label>
 					<div className="_input"></div>
-					<input type="file" onChange={e => this.uploadFile(e)} className="files" accept="image/png, image/jpg, image/jpeg"/>
+					<input type="file" onChange={e => this.uploadFile(e)} className="files" capture="camera" accept="image/png, image/jpg, image/jpeg"/>
 				</label>
 				<Button onClick={e => this.registe()}>注册</Button>
 
