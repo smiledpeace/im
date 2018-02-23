@@ -15,6 +15,9 @@
     "morgan": "~1.9.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2",
+    "redux-devtools": "^3.4.1",
     "serve-favicon": "~2.4.5",
     "socket.io": "^2.0.4"
   },

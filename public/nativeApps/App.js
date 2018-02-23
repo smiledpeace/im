@@ -26,6 +26,16 @@ import { Confirm } from '../components/confirm/confirm.js';
 
 import { Editor } from './richEditor/editor.js';
 
+import Todos  from './todos/index.js';
+
+
+import { createStore } from 'redux'; 
+
+import { Provider } from 'react-redux';
+
+import reducers from './todos/redux/reducers.js';
+
+
 
 String.prototype.firstUpperCase = function(){
     return this.replace(/\b(\w)(\w*)/g, function($0, $1, $2) {
@@ -34,7 +44,7 @@ String.prototype.firstUpperCase = function(){
 }
 const Type = document.querySelector('#type').value.firstUpperCase();
 
-
+let store = createStore(reducers);
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -47,6 +57,7 @@ class App extends React.Component {
             showChat: false,
             showLearn: false,
             showEditor: false,
+            showTodo: false,
             socket: null,
             g35user: null
         }
@@ -138,6 +149,20 @@ class App extends React.Component {
                 showChat: false,
                 showLearn: false,
                 showEditor: !this.state.showEditor,
+                showTodo: false
+            });
+        }
+
+        if (value === 'todo') {
+            this.setState({
+                showCalculator: false,
+                showGame: false,
+                showAction: false,
+                showReservation: false,
+                showChat: false,
+                showLearn: false,
+                showEditor: false,
+                showTodo: true
             });
         }
     }
@@ -167,6 +192,15 @@ class App extends React.Component {
                     }
                     {
                         this.state.showEditor ? <Editor g35user={this.state.g35user}/> : ''
+                    }
+
+                    {
+                        this.state.showTodo ? 
+                            <Provider store={store}>
+                                < Todos /> 
+                            </Provider>
+
+                        : ''
                     }
                     
                     <Game animation={this.state.showGame ? 'active' : ''}/>
